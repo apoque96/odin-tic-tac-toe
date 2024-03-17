@@ -61,22 +61,22 @@ const GameObject = (function () {
     player1 = createPlayer(name1, "X");
     player2 = createPlayer(name2, "O");
     //From here and on is just for testing that it works in the console
-    let result = false;
-    for (let i = 0; i < 9; i++) {
-      const choise = i % 2 === 0 ? prompt("player1") : prompt("player2");
-      try {
-        result =
-          i % 2 === 0 ? player1.makeMove(choise) : player2.makeMove(choise);
-      } catch (e) {
-        alert(e);
-        i--;
-      }
-      if (result) {
-        i % 2 === 0 ? alert("player1 wins") : alert("player2 wins");
-        break;
-      }
-    }
-    if (!result) alert("Tie!!!");
+    // let result = false;
+    // for (let i = 0; i < 9; i++) {
+    //   const choise = i % 2 === 0 ? prompt("player1") : prompt("player2");
+    //   try {
+    //     result =
+    //       i % 2 === 0 ? player1.makeMove(choise) : player2.makeMove(choise);
+    //   } catch (e) {
+    //     alert(e);
+    //     i--;
+    //   }
+    //   if (result) {
+    //     i % 2 === 0 ? alert("player1 wins") : alert("player2 wins");
+    //     break;
+    //   }
+    // }
+    // if (!result) alert("Tie!!!");
   }
 
   return { startGame };
