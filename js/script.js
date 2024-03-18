@@ -5,7 +5,7 @@ const GameObject = (function () {
     o: "O",
   });
 
-  let arr = Array(9).fill(state.none);
+  let arr = [];
 
   function createPlayer(name, symbol) {
     let score = 0;
@@ -13,9 +13,12 @@ const GameObject = (function () {
     const getScore = () => score;
     const giveScore = () => score++;
 
-    const makeMove = (index) => {
+    const makeMove = (index, cell) => {
       if (arr[index] === state.none) {
         arr[index] = symbol;
+        symbol === state.x
+          ? (cell.firstChild.src = "./images/cross.png")
+          : (cell.firstChild.src = "./images/circle.png");
       } else throw new Error("cell already ocuppied");
       return checkWin(symbol);
     };
@@ -54,33 +57,19 @@ const GameObject = (function () {
     return { name, symbol, getScore, giveScore, makeMove };
   }
 
-  let player1;
-  let player2;
-
   function startGame(name1, name2) {
-    player1 = createPlayer(name1, "X");
-    player2 = createPlayer(name2, "O");
-    console.log("a");
-    //From here and on is just for testing that it works in the console
-    // let result = false;
-    // for (let i = 0; i < 9; i++) {
-    //   const choise = i % 2 === 0 ? prompt("player1") : prompt("player2");
-    //   try {
-    //     result =
-    //       i % 2 === 0 ? player1.makeMove(choise) : player2.makeMove(choise);
-    //   } catch (e) {
-    //     alert(e);
-    //     i--;
-    //   }
-    //   if (result) {
-    //     i % 2 === 0 ? alert("player1 wins") : alert("player2 wins");
-    //     break;
-    //   }
-    // }
-    // if (!result) alert("Tie!!!");
+    let player1 = createPlayer(name1, "X");
+    let player2 = createPlayer(name2, "O");
+    restart();
+    return [player1, player2];
   }
 
-  return { startGame };
+  function restart() {
+    arr = [];
+    arr = Array(9).fill(state.none);
+  }
+
+  return { startGame, restart };
 })();
 
 const dom = (function () {
@@ -88,6 +77,15 @@ const dom = (function () {
   const PLAYER1 = document.querySelector("#player1");
   const PLAYER2 = document.querySelector("#player2");
   const MENU = document.querySelector("#menu");
+  const GAME = document.querySelector("#game");
+  const CELLS = document.querySelectorAll(".cell");
+  const PLAYER1DISPLAY = document.querySelector("#player1Display");
+  const PLAYER2DISPLAY = document.querySelector("#player2Display");
+  const RESTART = document.querySelectorAll(".restart");
+  const DIALOG = document.querySelector(".dialog");
+
+  let [player1, player2] = [];
+  let currentPlayer;
 
   function addEvents() {
     PLAY.addEventListener("click", () => {
@@ -100,7 +98,44 @@ const dom = (function () {
       }
 
       MENU.classList.toggle("hide");
-      GameObject.startGame(PLAYER1.value, PLAYER2.value);
+      GAME.classList.toggle("hide");
+      [player1, player2] = GameObject.startGame(PLAYER1.value, PLAYER2.value);
+      currentPlayer = player1;
+      PLAYER1DISPLAY.textContent = player1.name;
+      PLAYER2DISPLAY.textContent = player2.name;
+    });
+
+    CELLS.forEach((cell) => {
+      cell.addEventListener("click", () => {
+        try {
+          const result = currentPlayer.makeMove(cell.id, cell);
+          if (result) {
+            DIALOG.showModal();
+            DIALOG.firstChild.textContent = currentPlayer.name;
+          }
+          currentPlayer === player1
+            ? (currentPlayer = player2)
+            : (currentPlayer = player1);
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    });
+
+    RESTART.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        player1 = null;
+        player2 = null;
+        GameObject.restart();
+        PLAYER1.value = "";
+        PLAYER2.value = "";
+        CELLS.forEach((cell) => {
+          cell.firstChild.src = "";
+        });
+        DIALOG.close();
+        MENU.classList.toggle("hide");
+        GAME.classList.toggle("hide");
+      });
     });
   }
 

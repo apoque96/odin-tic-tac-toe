@@ -7,7 +7,7 @@
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <div id="menu" class="hide">
+    <div id="menu">
       <div class="header"><h1>Tic Tac Toe</h1></div>
       <div class="left">
         <div class="img-container">
@@ -25,11 +25,11 @@
         </div>
       </div>
     </div>
-    <div id="game">
+    <div id="game" class="hide">
       <div class="titleContainer">
         <div class="title">
-          <h1>Player 1</h1>
-          <h1>Player 2</h1>
+          <h1 id="player1Display">Player 1</h1>
+          <h1 id="player2Display">Player 2</h1>
         </div>
         <div class="titleImages">
           <img src="./images/cross.png" />
@@ -38,22 +38,27 @@
       </div>
       <div class="gameContainer">
         <div class="cellContainer">
-          <div id="0" class="cell"></div>
-          <div id="3" class="cell"></div>
-          <div id="6" class="cell"></div>
+          <div id="0" class="cell"><img class="cellImage" /></div>
+          <div id="3" class="cell"><img class="cellImage" /></div>
+          <div id="6" class="cell"><img class="cellImage" /></div>
         </div>
         <div class="cellContainer">
-          <div id="1" class="cell"></div>
-          <div id="4" class="cell"></div>
-          <div id="7" class="cell"></div>
+          <div id="1" class="cell"><img class="cellImage" /></div>
+          <div id="4" class="cell"><img class="cellImage" /></div>
+          <div id="7" class="cell"><img class="cellImage" /></div>
         </div>
         <div class="cellContainer">
-          <div id="2" class="cell"></div>
-          <div id="5" class="cell"></div>
-          <div id="8" class="cell"></div>
+          <div id="2" class="cell"><img class="cellImage" /></div>
+          <div id="5" class="cell"><img class="cellImage" /></div>
+          <div id="8" class="cell"><img class="cellImage" /></div>
         </div>
       </div>
+      <button type="button" class="restart">Restart</button>
     </div>
+    <dialog class="dialog">
+      <h1 id="winner">Player has won</h1>
+      <button type="button" class="restart">Restart</button>
+    </dialog>
     <script src="./js/script.js"></script>
   </body>
 </html>
