@@ -60,6 +60,7 @@ const GameObject = (function () {
   function startGame(name1, name2) {
     player1 = createPlayer(name1, "X");
     player2 = createPlayer(name2, "O");
+    console.log("a");
     //From here and on is just for testing that it works in the console
     // let result = false;
     // for (let i = 0; i < 9; i++) {
@@ -82,4 +83,28 @@ const GameObject = (function () {
   return { startGame };
 })();
 
-GameObject.startGame("a", "b");
+const dom = (function () {
+  const PLAY = document.querySelector(".play");
+  const PLAYER1 = document.querySelector("#player1");
+  const PLAYER2 = document.querySelector("#player2");
+  const MENU = document.querySelector("#menu");
+
+  function addEvents() {
+    PLAY.addEventListener("click", () => {
+      if (
+        PLAYER1.value.trim().length === 0 ||
+        PLAYER2.value.trim().length === 0
+      ) {
+        alert("Both players must contain a name");
+        return;
+      }
+
+      MENU.classList.toggle("hide");
+      GameObject.startGame(PLAYER1.value, PLAYER2.value);
+    });
+  }
+
+  return { addEvents };
+})();
+
+dom.addEvents();
