@@ -83,6 +83,7 @@ const dom = (function () {
   const PLAYER2DISPLAY = document.querySelector("#player2Display");
   const RESTART = document.querySelectorAll(".restart");
   const DIALOG = document.querySelector(".dialog");
+  const WINEER = document.querySelector("#winner");
 
   let [player1, player2] = [];
   let currentPlayer;
@@ -111,7 +112,7 @@ const dom = (function () {
           const result = currentPlayer.makeMove(cell.id, cell);
           if (result) {
             DIALOG.showModal();
-            DIALOG.firstChild.textContent = currentPlayer.name;
+            WINEER.textContent = currentPlayer.name + " has won";
           }
           currentPlayer === player1
             ? (currentPlayer = player2)
